@@ -81,8 +81,8 @@ public class linkedList {
             return currentNode.index;
     }
 
-    public sortList(){
-
+    public void sortList(){
+        System.out.println("1");
     }
 
     public void showAllList(){

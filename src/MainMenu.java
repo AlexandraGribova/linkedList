@@ -1,3 +1,3 @@
 public interface MainMenu {
-    void execute(linkedList newList, int iteam);
+    void execute(linkedList newList);
 }
