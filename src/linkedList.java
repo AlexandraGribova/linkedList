@@ -10,6 +10,7 @@ public class linkedList {
             this.index = current_index;
             next = null;
         }
+        private  Node(){}
     }
 
     private Node head;
@@ -81,8 +82,77 @@ public class linkedList {
             return currentNode.index;
     }
 
+    private Node[] frontBackSplit(){
+        Node slow = currentNode;
+        Node fast = currentNode.next;
+        // продвигаем fast на два узла и продвигаем slow на один узел
+        while (fast != null) {
+            fast = fast.next;
+            if (fast != null) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+        }
+        Node[] arr = new Node[]{ currentNode, slow.next };
+        slow.next = null;
+
+        return arr;
+    }
+
+    private Node sortedMerge(Node l1, Node l2){
+        Node dummy = new Node();
+        Node tail = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.value < l2.value) {
+                tail.next = l1;
+                l1 = l1.next;
+            } else {
+                tail.next = l2;
+                l2 = l2.next;
+            }
+            tail = tail.next;
+        }
+
+        if (l1 != null)
+            tail.next = l1;
+        else
+            tail.next = l2;
+        return dummy.next;
+    }
+    // Разделение списка на две части
+    private Node[] split(Node source){
+        if (source == null || source.next == null)
+            return new Node[]{ source, null };
+
+        Node slow = source;
+        Node fast = source.next;
+
+        // advance `fast` two nodes, and advance `slow` one node
+        while (fast != null) {
+            fast = fast.next;
+            if (fast != null) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+        }
+
+        Node[] arr = new Node[]{ source, slow.next };
+        slow.next = null;
+
+        return arr;
+    }
+
+    private Node mergeSort(Node head){
+        if(head==null || head.next == null)
+            return head;
+        Node[] arr = split(head);
+        Node left = mergeSort(arr[0]);
+        Node right = mergeSort(arr[1]);
+        return sortedMerge(left, right);
+    }
+
     public void sortList(){
-        System.out.println("1");
+        head = mergeSort(head);
     }
 
     public void showAllList(){
